@@ -2,6 +2,7 @@ import { BrowserRouter, Routes, Route, useParams, useNavigate } from "react-rout
 import { Security } from "@okta/okta-react";
 import { PropertiesList, EditProperty } from "../../features/properties";
 import { oktaAuth, LoginCallback, LoginPage, ProfilePage, ProtectedRoute } from "../../features/auth";
+import { MainLayout } from "../layouts/MainLayout";
 
 function EditPropertyRoute() {
   const { id } = useParams();
@@ -22,11 +23,13 @@ function AppRoutes() {
         <Route path="/login" element={<LoginPage />} />
         <Route path="/login/callback" element={<LoginCallback />} />
 
-        {/* Protected routes */}
+        {/* Protected routes with layout */}
         <Route element={<ProtectedRoute />}>
-          <Route path="/" element={<PropertiesList />} />
-          <Route path="/edit/:id" element={<EditPropertyRoute />} />
-          <Route path="/profile" element={<ProfilePage />} />
+          <Route element={<MainLayout />}>
+            <Route path="/" element={<PropertiesList />} />
+            <Route path="/edit/:id" element={<EditPropertyRoute />} />
+            <Route path="/profile" element={<ProfilePage />} />
+          </Route>
         </Route>
       </Routes>
     </Security>
