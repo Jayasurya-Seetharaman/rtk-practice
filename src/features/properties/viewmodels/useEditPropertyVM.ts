@@ -1,16 +1,17 @@
 import { useCallback } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { useAppDispatch, useAppSelector } from "../../../hook";
+import { useAppDispatch, useAppSelector } from "../../../app/store/hooks";
 import { selectPropertyById } from "../models/selectors";
 import { updateProperty } from "../models/propertiesSlice";
-import type { Property } from "../../properties/models/type";
+import type { Property } from "../models/types";
+import { useEditPropertyFormVM } from "./useEditPropertyFormVM";
 
-export function useEditProperty() {
+export function useEditPropertyVM() {
   const { id } = useParams<{ id: string }>();
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
-  const property = useAppSelector(selectPropertyById(id ?? ""));
+  const property = useAppSelector((state) => selectPropertyById(state, id ?? ""));
 
   const handleSave = useCallback(
     (updatedProperty: Property) => {
@@ -24,9 +25,16 @@ export function useEditProperty() {
     navigate("/");
   }, [navigate]);
 
+  const { formData, handleFieldChange, onSubmit } = useEditPropertyFormVM(
+    property,
+    handleSave
+  );
+
   return {
     property,
-    handleSave,
     handleCancel,
+    formData,
+    handleFieldChange,
+    onSubmit,
   };
 }

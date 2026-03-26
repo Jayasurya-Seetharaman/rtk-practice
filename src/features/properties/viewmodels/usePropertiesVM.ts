@@ -1,22 +1,36 @@
 import { useCallback, useMemo } from "react";
-import type { ColDef } from 'ag-grid-community';
-import { useAppDispatch, useAppSelector } from '../../../hook';
+import { useNavigate } from "react-router-dom";
+import type { ColDef } from "ag-grid-community";
+import { useAppDispatch, useAppSelector } from "../../../app/store/hooks";
 import { selectFilteredProperties, selectSearchQuery } from "../models/selectors";
 import { setSearchQuery, toggleStatus } from "../models/propertiesSlice";
-import type { Property } from "../models/type";
+import type { Property } from "../models/types";
 
-export function useProperties() {
-    const dispatch = useAppDispatch();
-    const properties = useAppSelector(selectFilteredProperties);
-    const searchQuery = useAppSelector(selectSearchQuery);
+export function usePropertiesVM() {
+  const dispatch = useAppDispatch();
+  const navigate = useNavigate();
+  const properties = useAppSelector(selectFilteredProperties);
+  const searchQuery = useAppSelector(selectSearchQuery);
 
-    const handleSearchChange = useCallback((query: string) => {
-        dispatch(setSearchQuery(query));
-    }, [dispatch]);
+  const handleSearchChange = useCallback(
+    (query: string) => {
+      dispatch(setSearchQuery(query));
+    },
+    [dispatch]
+  );
 
-    const handleToggleStatus = useCallback((id: string) => {
-        dispatch(toggleStatus(id));
-    }, [dispatch]
+  const handleToggleStatus = useCallback(
+    (id: string) => {
+      dispatch(toggleStatus(id));
+    },
+    [dispatch]
+  );
+
+  const onEditProperty = useCallback(
+    (propertyId: string) => {
+      navigate(`/edit/${propertyId}`);
+    },
+    [navigate]
   );
 
   const columnDefs: ColDef<Property>[] = useMemo(
@@ -52,7 +66,8 @@ export function useProperties() {
     searchQuery,
     columnDefs,
     defaultColDef,
-    handleSearchChange,
-    handleToggleStatus,
+    onSearchChange: handleSearchChange,
+    onToggleStatus: handleToggleStatus,
+    onEditProperty,
   };
 }

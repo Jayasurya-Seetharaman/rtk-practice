@@ -1,15 +1,17 @@
 import type { ICellRendererParams } from "ag-grid-community";
-import { useNavigate } from "react-router-dom";
-import type { Property } from "../../models/type";
+import type { Property } from "../../models/types";
 
-export function ActionsCell({ data }: ICellRendererParams<Property>) {
-  const navigate = useNavigate();
+interface ActionsCellProps extends ICellRendererParams<Property> {
+  onEdit: (id: string) => void;
+}
 
+export function ActionsCell({ data, onEdit }: ActionsCellProps) {
   if (!data) return null;
 
   return (
     <button
-      onClick={() => navigate(`/edit/${data.id}`)}
+      type="button"
+      onClick={() => onEdit(data.id)}
       className="p-1 hover:bg-gray-100 rounded transition-colors"
       aria-label={`Edit ${data.key}`}
     >

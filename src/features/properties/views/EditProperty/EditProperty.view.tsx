@@ -1,23 +1,27 @@
-import { useState, useEffect } from "react";
-import { useEditProperty } from "../../viewmodels/useEditProperty";
-import type { Property } from "../../models/type";
+import type { FormEvent } from "react";
+import type { Property } from "../../models/types";
 
-export function EditPropertyPage() {
-  const { property, handleSave, handleCancel } = useEditProperty();
+export interface EditPropertyViewProps {
+  property: Property | undefined;
+  formData: Property | null;
+  handleCancel: () => void;
+  handleFieldChange: (field: keyof Property, value: string) => void;
+  onSubmit: (e: FormEvent) => void;
+}
 
-  const [formData, setFormData] = useState<Property | null>(null);
-
-  useEffect(() => {
-    if (property) {
-      setFormData({ ...property });
-    }
-  }, [property]);
-
+export function EditPropertyView({
+  property,
+  formData,
+  handleCancel,
+  handleFieldChange,
+  onSubmit,
+}: EditPropertyViewProps) {
   if (!property) {
     return (
       <div className="p-8">
         <h1 className="text-2xl font-bold mb-4">Property Not Found</h1>
         <button
+          type="button"
           onClick={handleCancel}
           className="px-4 py-2 bg-gray-200 rounded hover:bg-gray-300 transition-colors"
         >
@@ -27,18 +31,9 @@ export function EditPropertyPage() {
     );
   }
 
-  if (!formData) return null;
-
-  const handleFieldChange = (field: keyof Property, value: string) => {
-    setFormData((prev) => (prev ? { ...prev, [field]: value } : prev));
-  };
-
-  const onSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (formData) {
-      handleSave(formData);
-    }
-  };
+  if (!formData) {
+    return null;
+  }
 
   return (
     <div className="p-8 max-w-2xl">

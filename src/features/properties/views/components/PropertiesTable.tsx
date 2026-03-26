@@ -3,8 +3,8 @@ import { ModuleRegistry, AllCommunityModule } from "ag-grid-community";
 
 import { useMemo } from "react";
 import { AgGridReact } from "ag-grid-react";
-import type { ColDef } from "ag-grid-community";
-import type { Property } from "../../models/type";
+import type { ColDef, ICellRendererParams } from "ag-grid-community";
+import type { Property } from "../../models/types";
 import { StatusToggle } from "./StatusToggle";
 import { ActionsCell } from "./ActionsCell";
 
@@ -15,6 +15,7 @@ interface PropertiesTableProps {
   columnDefs: ColDef<Property>[];
   defaultColDef: ColDef;
   onToggleStatus: (id: string) => void;
+  onEditProperty: (id: string) => void;
 }
 
 export function PropertiesTable({
@@ -22,15 +23,18 @@ export function PropertiesTable({
   columnDefs,
   defaultColDef,
   onToggleStatus,
+  onEditProperty,
 }: PropertiesTableProps) {
   const components = useMemo(
     () => ({
-      statusToggle: (props: any) => (
+      statusToggle: (props: ICellRendererParams<Property>) => (
         <StatusToggle {...props} onToggle={onToggleStatus} />
       ),
-      actionsCell: ActionsCell,
+      actionsCell: (props: ICellRendererParams<Property>) => (
+        <ActionsCell {...props} onEdit={onEditProperty} />
+      ),
     }),
-    [onToggleStatus]
+    [onToggleStatus, onEditProperty]
   );
 
   return (

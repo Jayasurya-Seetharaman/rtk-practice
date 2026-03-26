@@ -1,5 +1,5 @@
 import type { ICellRendererParams } from "ag-grid-community";
-import type { Property } from "../../models/type";
+import type { Property } from "../../models/types";
 
 interface StatusToggleProps extends ICellRendererParams<Property> {
   onToggle: (id: string) => void;
