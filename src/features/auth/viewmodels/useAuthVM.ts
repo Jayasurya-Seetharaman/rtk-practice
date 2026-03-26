@@ -14,28 +14,33 @@ export const useAuthVM = () => {
   const error = useAppSelector(selectAuthError);
 
   // sync Okta auth state → Redux store
-  useEffect(() => {
+useEffect(() => {
     const syncAuth = async () => {
       if (authState?.isAuthenticated) {
-        const userInfo = await oktaAuth.getUser();
-        dispatch(
-          setAuth({
-            name: userInfo.name ?? '',
-            email: userInfo.email ?? '',
-            sub: userInfo.sub ?? '',
-          })
-        );
+        // only fetch if we don't already have the user in Redux
+        if (!user) {
+          const userInfo = await oktaAuth.getUser();
+          dispatch(
+            setAuth({
+              name: userInfo.name ?? "",
+              email: userInfo.email ?? "",
+              sub: userInfo.sub ?? "",
+            })
+          );
+        } else {
+          dispatch(setLoading(false));
+        }
       } else if (authState && !authState.isAuthenticated) {
         dispatch(clearAuth());
       }
     };
-
+  
     if (authState) {
       syncAuth();
     } else {
       dispatch(setLoading(true));
     }
-  }, [authState, oktaAuth, dispatch]);
+  }, [authState, oktaAuth, dispatch, user]);
 
   const login = useCallback(async () => {
     await oktaAuth.signInWithRedirect();
