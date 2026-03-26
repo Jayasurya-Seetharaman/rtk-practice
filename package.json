@@ -10,6 +10,8 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@okta/okta-auth-js": "^8.0.0",
+    "@okta/okta-react": "^6.11.0",
     "@reduxjs/toolkit": "^2.11.2",
     "ag-grid-community": "^35.1.0",
     "ag-grid-react": "^35.1.0",

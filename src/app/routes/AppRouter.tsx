@@ -1,18 +1,42 @@
-import { BrowserRouter, Routes, Route, useParams } from "react-router-dom";
+import { BrowserRouter, Routes, Route, useParams, useNavigate } from "react-router-dom";
+import { Security } from "@okta/okta-react";
 import { PropertiesList, EditProperty } from "../../features/properties";
+import { oktaAuth, LoginCallback, LoginPage, ProfilePage, ProtectedRoute } from "../../features/auth";
 
 function EditPropertyRoute() {
   const { id } = useParams();
   return <EditProperty key={id ?? ""} />;
 }
 
+function AppRoutes() {
+  const navigate = useNavigate();
+
+  const restoreOriginalUri = async (_oktaAuth: any, originalUri: string) => {
+    navigate(originalUri || "/", { replace: true });
+  };
+
+  return (
+    <Security oktaAuth={oktaAuth} restoreOriginalUri={restoreOriginalUri}>
+      <Routes>
+        {/* Public routes */}
+        <Route path="/login" element={<LoginPage />} />
+        <Route path="/login/callback" element={<LoginCallback />} />
+
+        {/* Protected routes */}
+        <Route element={<ProtectedRoute />}>
+          <Route path="/" element={<PropertiesList />} />
+          <Route path="/edit/:id" element={<EditPropertyRoute />} />
+          <Route path="/profile" element={<ProfilePage />} />
+        </Route>
+      </Routes>
+    </Security>
+  );
+}
+
 export function AppRouter() {
   return (
     <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<PropertiesList />} />
-        <Route path="/edit/:id" element={<EditPropertyRoute />} />
-      </Routes>
+      <AppRoutes />
     </BrowserRouter>
   );
 }
