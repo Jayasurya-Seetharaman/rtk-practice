@@ -1,9 +1,10 @@
 import { BrowserRouter, Routes, Route, useParams, useNavigate } from "react-router-dom";
 import { Security } from "@okta/okta-react";
 import { PropertiesList, EditProperty } from "../../features/properties";
+import { ProductsPage } from "../../features/products";
 import { oktaAuth, LoginCallback, LoginPage, ProfilePage, ProtectedRoute } from "../../features/auth";
 import { MainLayout } from "../layouts/MainLayout";
-import { ProductsPage } from "../../features/products";
+import { NotFoundPage } from "../pages/NotFoundPage";
 
 function EditPropertyRoute() {
   const { id } = useParams();
@@ -31,6 +32,9 @@ function AppRoutes() {
             <Route path="/edit/:id" element={<EditPropertyRoute />} />
             <Route path="/products" element={<ProductsPage />} />
             <Route path="/profile" element={<ProfilePage />} />
+
+            {/* 404 — catches all unmatched routes inside layout */}
+            <Route path="*" element={<NotFoundPage />} />
           </Route>
         </Route>
       </Routes>
