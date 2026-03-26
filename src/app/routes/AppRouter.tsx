@@ -3,6 +3,7 @@ import { Security } from "@okta/okta-react";
 import { PropertiesList, EditProperty } from "../../features/properties";
 import { oktaAuth, LoginCallback, LoginPage, ProfilePage, ProtectedRoute } from "../../features/auth";
 import { MainLayout } from "../layouts/MainLayout";
+import { ProductsPage } from "../../features/products";
 
 function EditPropertyRoute() {
   const { id } = useParams();
@@ -28,6 +29,7 @@ function AppRoutes() {
           <Route element={<MainLayout />}>
             <Route path="/" element={<PropertiesList />} />
             <Route path="/edit/:id" element={<EditPropertyRoute />} />
+            <Route path="/products" element={<ProductsPage />} />
             <Route path="/profile" element={<ProfilePage />} />
           </Route>
         </Route>
