@@ -1,6 +1,6 @@
 import axios from "axios";
 import type { InternalAxiosRequestConfig } from "axios";
-import oktaAuth from "../../features/auth/config/oktaConfig";
+import oktaAuth from "../config/oktaConfig";
 import {
   UnauthorizedError,
   ForbiddenError,

@@ -2,7 +2,8 @@ import { BrowserRouter, Routes, Route, useParams, useNavigate } from "react-rout
 import { Security } from "@okta/okta-react";
 import { PropertiesList, EditProperty } from "../../features/properties";
 import { ProductsPage } from "../../features/products";
-import { oktaAuth, LoginCallback, LoginPage, ProfilePage, ProtectedRoute } from "../../features/auth";
+import { LoginCallback, LoginPage, ProfilePage, ProtectedRoute } from "../../features/auth";
+import oktaAuth from "../config/oktaConfig";
 import { MainLayout } from "../layouts/MainLayout";
 import { NotFoundPage } from "../pages/NotFoundPage";
 
