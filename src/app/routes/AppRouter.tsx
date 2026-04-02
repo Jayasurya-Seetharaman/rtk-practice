@@ -15,7 +15,10 @@ function EditPropertyRoute() {
 function AppRoutes() {
   const navigate = useNavigate();
 
-  const restoreOriginalUri = async (_oktaAuth: any, originalUri: string) => {
+  const restoreOriginalUri = async (
+    _oktaAuth: unknown,
+    originalUri: string
+  ) => {
     navigate(originalUri || "/", { replace: true });
   };
 

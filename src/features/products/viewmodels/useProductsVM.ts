@@ -1,28 +1,32 @@
-import { useEffect } from "react";
-import { useAppDispatch, useAppSelector } from "../../../app/store/hooks";
-import { fetchProducts } from "../models/thunks";
-import {
-  selectProducts,
-  selectProductsStatus,
-  selectProductsError,
-} from "../models/selectors";
+import { useCallback, useMemo, useState } from "react";
+import { useGetProductsQuery } from "../api/productsApi";
+import type { Product } from "../models/types";
 
 export const useProductsVM = () => {
-  const dispatch = useAppDispatch();
-  const products = useAppSelector(selectProducts);
-  const status = useAppSelector(selectProductsStatus);
-  const error = useAppSelector(selectProductsError);
+  const { data, isLoading, isError } = useGetProductsQuery();
 
-  useEffect(() => {
-    if (status === "idle") {
-      dispatch(fetchProducts());
-    }
-  }, [status, dispatch]);
+  const products: Product[] | undefined = data?.products;
+  const [selectedCategory, setSelectedCategory] = useState<string | null>(
+    null
+  );
+
+  const filteredProducts = useMemo(() => {
+    const safeProducts = products ?? [];
+    if (!selectedCategory) return safeProducts;
+    return safeProducts.filter((p) => p.category === selectedCategory);
+  }, [products, selectedCategory]);
+
+  const handleSelectCategory = useCallback(
+    (categorySlug: string | null) => setSelectedCategory(categorySlug),
+    []
+  );
 
   return {
-    products,
-    isLoading: status === "loading",
-    isError: status === "failed",
-    error,
+    selectedCategory,
+    setSelectedCategory: handleSelectCategory,
+    filteredProducts,
+    isLoading,
+    isError,
+    error: isError ? "Failed to fetch products" : null,
   };
 };

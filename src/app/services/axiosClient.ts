@@ -9,7 +9,7 @@ import {
 } from "./apiErrors";
 
 const axiosClient = axios.create({
-  baseURL: "https://fakestoreapi.com", // replace with actual API base
+  baseURL: "https://dummyjson.com", // replace with actual API base
   timeout: 15000,
   headers: {
     "Content-Type": "application/json",

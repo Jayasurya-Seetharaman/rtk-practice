@@ -32,11 +32,3 @@ export type ApiError = {
     }
   }
   
-  export function getErrorMessage(error: unknown): string {
-    if (error instanceof UnauthorizedError) return error.message;
-    if (error instanceof ForbiddenError) return error.message;
-    if (error instanceof NetworkError) return error.message;
-    if (error instanceof ServerError) return error.message;
-    if (error instanceof Error) return error.message;
-    return "An unexpected error occurred";
-  }

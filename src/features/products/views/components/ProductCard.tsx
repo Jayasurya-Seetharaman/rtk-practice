@@ -9,7 +9,7 @@ export function ProductCard({ product }: ProductCardProps) {
     <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-4 flex flex-col">
       <div className="h-48 flex items-center justify-center mb-4">
         <img
-          src={product.image}
+          src={product.thumbnail}
           alt={product.title}
           className="max-h-full max-w-full object-contain"
         />
@@ -22,8 +22,7 @@ export function ProductCard({ product }: ProductCardProps) {
           ${product.price.toFixed(2)}
         </span>
         <div className="flex items-center gap-1 text-sm text-gray-500">
-          <span>⭐ {product.rating.rate}</span>
-          <span>({product.rating.count})</span>
+          <span>⭐ {product.rating.toFixed(1)}</span>
         </div>
       </div>
       <span className="mt-2 inline-block text-xs text-gray-500 bg-gray-100 rounded-full px-2 py-1 w-fit">

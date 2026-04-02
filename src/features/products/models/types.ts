@@ -1,18 +1,31 @@
 export type Product = {
-    id: number;
-    title: string;
-    price: number;
-    description: string;
-    category: string;
-    image: string;
-    rating: {
-      rate: number;
-      count: number;
-    };
-  };
-  
-  export type ProductsState = {
-    items: Product[];
-    status: "idle" | "loading" | "succeeded" | "failed";
-    error: string | null;
-  };
+  id: number;
+  title: string;
+  description: string;
+  category: string;
+  price: number;
+  thumbnail: string;
+  rating: number;
+  stock: number;
+  brand: string;
+  images: string[];
+};
+
+export type ProductsResponse = {
+  products: Product[];
+  total: number;
+  skip: number;
+  limit: number;
+};
+
+export type Category = {
+  slug: string;
+  name: string;
+  url: string;
+};
+
+export type CategoriesState = {
+  items: Category[];
+  status: "idle" | "loading" | "succeeded" | "failed";
+  error: string | null;
+};
