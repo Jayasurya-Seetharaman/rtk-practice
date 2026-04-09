@@ -1,8 +1,10 @@
 import { useNavigate } from "react-router-dom";
 import { useAuthVM } from "../../../features/auth/viewmodels/useAuthVM";
+import { useOktaActions } from "../../../features/auth/viewmodels/useOktaActions";
 
 export function Header() {
-  const { user, logout } = useAuthVM();
+  const { user } = useAuthVM();
+  const { logout } = useOktaActions();
   const navigate = useNavigate();
 
   return (

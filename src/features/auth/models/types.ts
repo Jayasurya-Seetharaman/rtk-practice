@@ -1,7 +1,10 @@
+export type UserRole = 'admin' | 'viewer';
+
 export type AuthUser = {
     name: string;
     email: string;
     sub: string; // Okta user ID
+    user_role: UserRole;
 };
 
 export type AuthState = {

@@ -1,8 +1,10 @@
 import { Navigate } from "react-router-dom";
 import { useAuthVM } from "../../viewmodels/useAuthVM";
+import { useOktaActions } from "../../viewmodels/useOktaActions";
 
 export const LoginPage = () => {
-  const { isAuthenticated, isLoading, login } = useAuthVM();
+  const { isAuthenticated, isLoading } = useAuthVM();
+  const { login } = useOktaActions();
 
   if (isLoading) {
     return (

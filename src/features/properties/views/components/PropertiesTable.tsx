@@ -14,6 +14,7 @@ interface PropertiesTableProps {
   properties: Property[];
   columnDefs: ColDef<Property>[];
   defaultColDef: ColDef;
+  isAdmin: boolean;
   onToggleStatus: (id: string) => void;
   onEditProperty: (id: string) => void;
 }
@@ -22,19 +23,20 @@ export function PropertiesTable({
   properties,
   columnDefs,
   defaultColDef,
+  isAdmin,
   onToggleStatus,
   onEditProperty,
 }: PropertiesTableProps) {
   const components = useMemo(
     () => ({
       statusToggle: (props: ICellRendererParams<Property>) => (
-        <StatusToggle {...props} onToggle={onToggleStatus} />
+        <StatusToggle {...props} isAdmin={isAdmin} onToggle={onToggleStatus} />
       ),
       actionsCell: (props: ICellRendererParams<Property>) => (
         <ActionsCell {...props} onEdit={onEditProperty} />
       ),
     }),
-    [onToggleStatus, onEditProperty]
+    [isAdmin, onToggleStatus, onEditProperty]
   );
 
   return (

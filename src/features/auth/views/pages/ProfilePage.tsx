@@ -1,7 +1,9 @@
 import { useAuthVM } from '../../viewmodels/useAuthVM';
+import { useOktaActions } from '../../viewmodels/useOktaActions';
 
 export const ProfilePage = () => {
-  const { user, logout } = useAuthVM();
+  const { user } = useAuthVM();
+  const { logout } = useOktaActions();
 
   if (!user) return null;
 

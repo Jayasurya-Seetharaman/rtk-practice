@@ -8,6 +8,7 @@ export interface PropertiesListViewProps {
   searchQuery: string;
   columnDefs: ColDef<Property>[];
   defaultColDef: ColDef;
+  isAdmin: boolean;
   onSearchChange: (value: string) => void;
   onToggleStatus: (id: string) => void;
   onEditProperty: (id: string) => void;
@@ -18,6 +19,7 @@ export function PropertiesListView({
   searchQuery,
   columnDefs,
   defaultColDef,
+  isAdmin,
   onSearchChange,
   onToggleStatus,
   onEditProperty,
@@ -30,6 +32,7 @@ export function PropertiesListView({
         properties={properties}
         columnDefs={columnDefs}
         defaultColDef={defaultColDef}
+        isAdmin={isAdmin}
         onToggleStatus={onToggleStatus}
         onEditProperty={onEditProperty}
       />

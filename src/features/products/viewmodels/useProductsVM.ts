@@ -1,9 +1,17 @@
-import { useCallback, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { useGetProductsQuery } from "../api/productsApi";
 import type { Product } from "../models/types";
+import { useAlert } from "../../../app/context/AlertContext";
 
 export const useProductsVM = () => {
   const { data, isLoading, isError } = useGetProductsQuery();
+  const { showAlert } = useAlert();
+
+  useEffect(() => {
+    if (isError) {
+      showAlert('error', 'Failed to load products');
+    }
+  }, [isError, showAlert]);
 
   const products: Product[] | undefined = data?.products;
   const [selectedCategory, setSelectedCategory] = useState<string | null>(
